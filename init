@@ -1,0 +1,98 @@
+#!/bin/sh
+
+PWD="$(cd $(dirname $0) && pwd)"
+ROOT="$PWD/.."
+TITLE="远程协助-极客版"
+PROGRAM_NAME="app-ssh-reverse-keepalive"
+CUSTOM_BIN="/system/apps/tp/bin/custom"
+
+APPS_CONFIG_DIR="/data/conf"
+LAUNCHER_CONFIG_DIR="$APPS_CONFIG_DIR/launcher/conf.d"
+LAUNCHER_CONFIG_FILE="$LAUNCHER_CONFIG_DIR/$PROGRAM_NAME.conf"
+
+ICON="./res/icon.png"
+PRESSED_ICON="./res/icon_pressed.png"
+
+INSTALL_BIN="/usr/bin/install"
+REMOVE="/bin/rm -f"
+
+usage() {
+    echo "ERROR: action missing"
+    echo "syntax: $0 <start|stop|restart|status|config|install|uninstall>"
+    echo "example: $0 start"
+}
+
+start() {
+    $PWD/sbin/service.sh start    
+}
+
+run() {
+    $PWD/sbin/run.sh 
+}
+
+stop() {
+    $PWD/sbin/service.sh stop    
+}
+
+START_MENU_CONF=$ROOT/conf/start_menu.conf
+
+config() {
+    echo "{" > "$PROGRAM_NAME.conf"
+    echo "\"name\" :  \"$TITLE\"," >> "$PROGRAM_NAME.conf"
+    echo "\"icon\" : \"$PWD/$ICON\"," >> "$PROGRAM_NAME.conf"
+    echo "\"iconPressed\" : \"$PWD/$PRESSED_ICON\"," >> "$PROGRAM_NAME.conf"
+    echo "\"exec\" : \"$PWD/init run\"," >> "$PROGRAM_NAME.conf"
+    echo "\"msgNum\" : 4" >> "$PROGRAM_NAME.conf"
+    echo "}" >> "$PROGRAM_NAME.conf"
+
+    $INSTALL_BIN -d $LAUNCHER_CONFIG_DIR
+    $INSTALL_BIN "$PROGRAM_NAME.conf" "$LAUNCHER_CONFIG_FILE"
+
+    echo "{" > $START_MENU_CONF
+    echo "\"item_num\": 4," >> $START_MENU_CONF
+    echo "\"items\":[" >> $START_MENU_CONF
+    echo "    { \"menuText\" : \"4小时\"," >> $START_MENU_CONF
+    echo "      \"menuApp\" : \"$PWD/sbin/service.sh start_for_hour 4 \"" >> $START_MENU_CONF
+    echo "    }," >> $START_MENU_CONF
+    echo "    { \"menuText\" : \"1天\"," >> $START_MENU_CONF
+    echo "      \"menuApp\" : \"$PWD/sbin/service.sh start_for_hour 24\"" >> $START_MENU_CONF
+    echo "    }," >> $START_MENU_CONF
+    echo "    { \"menuText\" : \"1周\", " >> $START_MENU_CONF
+    echo "      \"menuApp\" : \"$PWD/sbin/service.sh start_for_hour 168\"" >> $START_MENU_CONF
+    echo "    }," >> $START_MENU_CONF
+    echo "    { \"menuText\" : \"1个月\"," >> $START_MENU_CONF
+    echo "      \"menuApp\" : \"$PWD/sbin/service.sh start_for_hour 720\"" >> $START_MENU_CONF
+    echo "    }" >> $START_MENU_CONF
+    echo " ]" >> $START_MENU_CONF
+    echo " }" >> $START_MENU_CONF
+    
+    
+}
+
+uninstall() {
+    $REMOVE "$LAUNCHER_CONFIG_FILE"
+}
+
+# main
+if [ $# -lt 1 ]; then
+    usage
+    exit 255
+fi
+
+case "$1" in
+    "start" )
+        start;;
+    "stop" )
+        stop;;
+    "run" )
+        run;;
+    "restart" )
+        start
+        stop;;
+    "install" )
+        config;;
+    "uninstall" )
+        uninstall;;
+    * )
+        usage ;;
+esac

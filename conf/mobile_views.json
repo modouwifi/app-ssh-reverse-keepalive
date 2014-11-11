@@ -1,0 +1,68 @@
+{
+    "main_page" :
+    {
+        "id": "main_page",
+        "name": "远程协助",
+        "type": "main",
+        "data" :
+        {
+            "current_pass":
+            {
+                "id" : "current_pass",
+                "access" : "RO"
+            },
+            "current_port":
+            {
+                "id" : "current_port",
+                "access" : "RO"
+            }
+        },
+        "menu" : 
+        {
+            "1" : 
+            {
+                "index" : 1,
+                "text" : "开启服务",
+                "type" : "MENU",
+                "items" :                 
+                {
+                    "1" : 
+                    { 
+                        "index" : 1,
+                        "text" : "开启4小时",
+                        "type" : "COMMAND",
+                        "action" : "start_4hour"
+                    },
+                    "2" :
+                    {
+                        "index" : 2,
+                        "text" : "开启1天",
+                        "type" : "COMMAND",
+                        "action" : "start_1day"
+                    },
+                    "3" :
+                    {
+                        "index" : 3,
+                        "text" : "开启1周",
+                        "type" : "COMMAND",
+                        "action" : "start_1week"
+                    },
+                    "4" : 
+                    {
+                        "index" : 4,
+                        "text" : "开启1个月",
+                        "type" : "COMMAND",
+                        "action" : "start_1month"
+                    }
+                }
+            },
+            "2" : 
+            {
+                "index" : "2",
+                "text" : "关闭服务",
+                "type" : "COMMAND",
+                "action" : "stop_service"                
+            }
+        }
+    }    
+}

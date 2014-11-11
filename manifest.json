@@ -1,0 +1,14 @@
+{
+        "package_id"      : "com.modouwifi.app-ssh-reverse-keepalive",
+        "name"            : "远程协助-极客版",
+        "author"          : "魔豆开发团队-阿耀",
+        "author_mail"     : "zhouyao@mochui.net",
+        "homepage"        : "www.modouwifi.com",
+        "version"         : "0.1.0",
+        "release_date"    : "2014.10.24",
+        "icon"            : "./res/icon.png",
+        "location"        : "internal",
+        "description"     : "运行插件后，点击开始可选择远程协助可以打开多长时间(1天，1周等)",
+        "instruction"     : "",
+        "os_version"      : "0.6.17"
+}

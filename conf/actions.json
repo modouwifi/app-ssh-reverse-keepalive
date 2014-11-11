@@ -1,0 +1,37 @@
+{
+    "start_4hour" : 
+    {
+        "id" : "start_4hour",
+        "is_sync" : true,
+        "cmd" : "./sbin/service.sh start_for_hour 4",
+        "relative" : true
+    },
+    "start_1day" :
+    {
+        "id" : "start_1day",
+        "is_sync" : true,
+        "cmd" : "./sbin/service.sh start_for_hour 24",
+        "relative" : true
+    },
+    "start_1week" :
+    {
+        "id" : "start_1week",
+        "is_sync" : true,
+        "cmd" : "./sbin/service.sh start_for_hour 168",
+        "relative" : true
+    },
+    "start_1month" :
+    {
+        "id" : "start_1month",
+        "is_sync" : true,
+        "cmd" : "./sbin/service.sh start_for_hour 720",
+        "relative" : true
+    },
+    "stop_service" :
+    {
+        "id" : "stop_service",
+        "is_sync" : true,
+        "cmd" : "./init stop",
+        "relative" : true
+    }
+}
