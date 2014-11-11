@@ -111,9 +111,12 @@ start_for_hour()
 
 start_service()
 {
-    # if [ $port == "空" ] ; then
-    get_port;
-    local port=$port_result
+
+    local port=`json4sh.sh get $ROOT/conf/data.json current_port value`
+    if [ $port == "空" ] ; then
+        get_port;
+        port=$port_result
+    fi
 
     echo "使用PORT:$port"
     $SSH -i $KEY_FILE -o UserKnownHostsFile="$KNOWN_HOSTS" \
