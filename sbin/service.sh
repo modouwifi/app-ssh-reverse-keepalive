@@ -41,7 +41,7 @@ get_port()
 
 remote_exec()
 {
-    exec_result=`$SSH -i $KEY_FILE $USER@$SERVER "$1"`    
+    exec_result=`$SSH -i $KEY_FILE -F $CONFIG_FILE $USER@$SERVER "$1"`    
 }
 
 daemon()
@@ -74,7 +74,7 @@ daemon()
             local netstat=$exec_result
 
             if [ "$netstat" == "" ] ; then
-                $SSH -i $KEY_FILE -g -NfR *:$port:*:22 $USER@$SERVER 2>/dev/null
+                $SSH -i $KEY_FILE -F $CONFIG_FILE -g -NfR *:$port:*:22 $USER@$SERVER 2>/dev/null
             fi
         fi
         
@@ -121,7 +121,7 @@ start_service()
     fi
 
     echo "使用PORT:$port"
-    $SSH -i $KEY_FILE -g -NfR *:$port:*:22 $USER@$SERVER
+    $SSH -i $KEY_FILE -F $CONFIG_FILE -g -NfR *:$port:*:22 $USER@$SERVER
 
     if [ $? == 0 ] ; then
         # 在server的端口表文件中保留此port
