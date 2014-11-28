@@ -12,9 +12,11 @@ APP_PID=`cat /var/run/$APP.pid 2>/dev/null`
 DAEMON_PID_FILE="/var/run/$APP.dameon.pid"
 DEADLINE_FILE="$ROOT/deadline"
 
-KEY_FILE=$ROOT/conf/ali-ssh-reverse-id_rsa
+KEY_FILE=$ROOT/conf/id_rsa
 SSH=$ROOT/bin/ssh
-KNOWN_HOSTS=$ROOT/conf/known_hosts
+CONFIG_FILE="$ROOT/conf/ssh_config"
+USER="help"
+SERVER="help.imoguyun.com"
 CHECK_INTERVAL=60
 
 get_port()
@@ -39,7 +41,7 @@ get_port()
 
 remote_exec()
 {
-    exec_result=`$SSH -i $KEY_FILE -o UserKnownHostsFile="$KNOWN_HOSTS" ssh-reverse@115.29.171.150 "$1"`    
+    exec_result=`$SSH -i $KEY_FILE $USER@$SERVER "$1"`    
 }
 
 daemon()
@@ -72,7 +74,7 @@ daemon()
             local netstat=$exec_result
 
             if [ "$netstat" == "" ] ; then
-                $SSH -i $KEY_FILE -o UserKnownHostsFile="$KNOWN_HOSTS" -g -NfR *:$port:*:22 ssh-reverse@115.29.171.150 2>/dev/null
+                $SSH -i $KEY_FILE -g -NfR *:$port:*:22 $USER@$SERVER 2>/dev/null
             fi
         fi
         
@@ -119,8 +121,7 @@ start_service()
     fi
 
     echo "使用PORT:$port"
-    $SSH -i $KEY_FILE -o UserKnownHostsFile="$KNOWN_HOSTS" \
-        -g -NfR *:$port:*:22 ssh-reverse@115.29.171.150
+    $SSH -i $KEY_FILE -g -NfR *:$port:*:22 $USER@$SERVER
 
     if [ $? == 0 ] ; then
         # 在server的端口表文件中保留此port
