@@ -65,6 +65,8 @@ config() {
     echo "    }" >> $START_MENU_CONF
     echo " ]" >> $START_MENU_CONF
     echo " }" >> $START_MENU_CONF
+
+    chmod 600 $PWD/conf/id_rsa
     
     
 }
